@@ -1,6 +1,7 @@
 package com.souzaemerson.muscleupgym.domain.di.module
 
 import com.souzaemerson.muscleupgym.data.source.remote.ExerciseDataSource
+import com.souzaemerson.muscleupgym.data.source.remote.ExerciseDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,6 +13,6 @@ abstract class DataModule {
 
     @Binds
     abstract fun bindExerciseDataSource(
-        exerciseDataSource: ExerciseDataSource
+        exerciseDataSourceImpl: ExerciseDataSourceImpl
     ): ExerciseDataSource
 }

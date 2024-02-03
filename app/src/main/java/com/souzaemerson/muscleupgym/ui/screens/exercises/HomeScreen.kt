@@ -17,12 +17,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.souzaemerson.muscleupgym.ui.components.CalendarHeader
 import com.souzaemerson.muscleupgym.ui.components.item.CategoryItem
-import com.souzaemerson.muscleupgym.ui.screens.exercises.viewmodel.HomeViewModel
+import com.souzaemerson.muscleupgym.ui.screens.exercises.viewmodel.HomeViewModel.HomeUiState
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel,
+    state: HomeUiState,
     onNavigateToExercise: () -> Unit = {}
 ) {
     Box(
@@ -30,7 +30,9 @@ fun HomeScreen(
     ) {
         CalendarHeader(modifier = Modifier)
         Surface(
-            modifier = Modifier.padding(top = 150.dp).fillMaxSize(),
+            modifier = Modifier
+                .padding(top = 150.dp)
+                .fillMaxSize(),
             shape = AbsoluteRoundedCornerShape(topLeft = 25.dp, topRight = 25.dp),
             color = Color.Gray,
             border = BorderStroke(width = 2.dp, color = Color.Black)
@@ -40,12 +42,20 @@ fun HomeScreen(
                 columns = GridCells.Fixed(1),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(items = List(10) { "upper body" }) { category ->
-                    CategoryItem(
-                        bodyPart = category,
-                        onClickCategory = onNavigateToExercise
-                    )
+                when (state) {
+                    HomeUiState.Loading -> {}
+                    is HomeUiState.Success -> {
+                        items(items = state.bodyParts) { category ->
+                            CategoryItem(
+                                bodyPart = category,
+                                onClickCategory = onNavigateToExercise
+                            )
+                        }
+                    }
+
+                    is HomeUiState.Error -> {}
                 }
+
             }
         }
     }

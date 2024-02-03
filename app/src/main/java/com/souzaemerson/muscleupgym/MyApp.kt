@@ -1,4 +1,4 @@
-package com.souzaemerson
+package com.souzaemerson.muscleupgym
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

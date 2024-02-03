@@ -5,7 +5,6 @@ import okhttp3.Response
 
 class ApiKeyInterceptor(
     private val apiKey: String,
-    private val apiHost: String
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -13,7 +12,6 @@ class ApiKeyInterceptor(
             chain.request()
                 .newBuilder()
                 .addHeader("X-RapidAPI-Key", apiKey)
-                .addHeader("X-RapidAPI-Host", apiHost)
                 .build()
         )
     }

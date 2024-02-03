@@ -1,11 +1,14 @@
 package com.souzaemerson.muscleupgym.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.souzaemerson.muscleupgym.ui.screens.exercises.HomeScreen
+import com.souzaemerson.muscleupgym.ui.screens.exercises.viewmodel.HomeViewModel
 
 @Composable
 fun MuscleUpNavHost(
@@ -19,11 +22,9 @@ fun MuscleUpNavHost(
         startDestination = startDestination
     ) {
         composable(route = "home") {
-            HomeScreen(
-                onNavigateToExercise = {
-                    navController.navigate("exercise")
-                }
-            )
+            val homeViewModel = hiltViewModel<HomeViewModel>()
+            val state = homeViewModel.state.collectAsState()
+            HomeScreen(state = state.value)
         }
     }
 }

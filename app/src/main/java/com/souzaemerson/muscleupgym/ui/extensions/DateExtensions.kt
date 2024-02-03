@@ -1,4 +1,4 @@
-package com.souzaemerson.muscleupgym.util.extensions
+package com.souzaemerson.muscleupgym.ui.extensions
 
 import java.time.LocalDate
 import java.time.format.TextStyle

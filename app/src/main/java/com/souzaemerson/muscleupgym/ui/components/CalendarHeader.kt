@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.souzaemerson.muscleupgym.data.calendar.CalendarDataSource
 import com.souzaemerson.muscleupgym.ui.components.item.CalendarItem
-import com.souzaemerson.muscleupgym.util.extensions.getMonthInPortuguese
+import com.souzaemerson.muscleupgym.ui.extensions.getMonthInPortuguese
 import java.time.LocalDate
 
 @Composable

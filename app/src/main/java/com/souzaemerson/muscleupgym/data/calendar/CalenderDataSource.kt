@@ -1,7 +1,7 @@
 package com.souzaemerson.muscleupgym.data.calendar
 
-import com.souzaemerson.muscleupgym.util.extensions.getDayOfWeekInPortuguese
-import com.souzaemerson.muscleupgym.util.extensions.getMonthInPortuguese
+import com.souzaemerson.muscleupgym.ui.extensions.getDayOfWeekInPortuguese
+import com.souzaemerson.muscleupgym.ui.extensions.getMonthInPortuguese
 import java.time.LocalDate
 
 class CalendarDataSource {

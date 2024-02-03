@@ -30,8 +30,7 @@ object ProvideRetrofit {
     }
 
     @Provides
-    fun provideApiKeyInterceptor(): ApiKeyInterceptor =
-        ApiKeyInterceptor(BuildConfig.API_KEY, BuildConfig.API_KEY)
+    fun provideApiKeyInterceptor(): ApiKeyInterceptor = ApiKeyInterceptor(BuildConfig.API_KEY)
 
     @Provides
     fun provideOkHttpClient(
@@ -55,6 +54,7 @@ object ProvideRetrofit {
         client: OkHttpClient,
     ): ExerciseService = Retrofit.Builder()
         .client(client)
+        .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(converterFactory)
         .build()
         .create(ExerciseService::class.java)

@@ -57,5 +57,5 @@ private fun getImageVector(
 @Composable
 @Preview(showBackground = true)
 fun BottomNavigationPreview() {
-    BottomNavigation()
+//    BottomNavigation()
 }
