@@ -1,4 +1,4 @@
-package com.souzaemerson.muscleupgym.data.calendar
+package com.souzaemerson.muscleupgym.data.source.local.calendar
 
 import com.souzaemerson.muscleupgym.ui.extensions.getDayOfWeekInPortuguese
 import com.souzaemerson.muscleupgym.ui.extensions.getMonthInPortuguese

@@ -1,10 +1,7 @@
 package com.souzaemerson.muscleupgym.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -18,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.souzaemerson.muscleupgym.data.calendar.CalendarDataSource
+import com.souzaemerson.muscleupgym.data.source.local.calendar.CalendarDataSource
 import com.souzaemerson.muscleupgym.ui.components.item.CalendarItem
 import com.souzaemerson.muscleupgym.ui.extensions.getMonthInPortuguese
 import java.time.LocalDate

@@ -22,7 +22,7 @@ class HomeViewModel @Inject constructor(
         getBodyParts()
     }
 
-    fun getBodyParts() {
+    private fun getBodyParts() {
         viewModelScope.launch {
             bodyPartsRepository.getBodyParts().catch {
                 _state.value = HomeUiState.Error(it)

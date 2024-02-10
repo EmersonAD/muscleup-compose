@@ -2,16 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CalendarHeaderPreview">
+      <entry key="AnnotationBottomSheetPreview">
         <State />
       </entry>
-      <entry key="CategoryItemPreview">
+      <entry key="AnnotationCategoryItemPreview">
         <State />
       </entry>
-      <entry key="CategoryItemPreview (1)">
+      <entry key="AnnotationScreenPreview">
         <State />
       </entry>
       <entry key="ExerciseItemPreview">
+        <State />
+      </entry>
+      <entry key="ExerciseItemPreview (1)">
         <State />
       </entry>
       <entry key="app">

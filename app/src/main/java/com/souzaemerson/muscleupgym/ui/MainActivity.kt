@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.souzaemerson.muscleupgym.ui.components.TopBar
 import com.souzaemerson.muscleupgym.ui.components.navigation.BottomNavigation
+import com.souzaemerson.muscleupgym.ui.extensions.navigateTo
 import com.souzaemerson.muscleupgym.ui.navigation.MuscleUpNavHost
 import com.souzaemerson.muscleupgym.ui.theme.MuscleupgymTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +33,13 @@ fun MuscleUpApp() {
         val navController = rememberNavController()
 
         Scaffold(
-            bottomBar = { BottomNavigation(navigateTo = {}) },
+            bottomBar = {
+                BottomNavigation(
+                    navigateTo = { route ->
+                        navController.navigateTo(route)
+                    }
+                )
+            },
             topBar = { TopBar() },
             containerColor = Color.DarkGray
         ) {
@@ -44,7 +51,6 @@ fun MuscleUpApp() {
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
