@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import com.souzaemerson.muscleupgym.data.model.annotation.Annotation
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +41,7 @@ import com.souzaemerson.muscleupgym.data.model.annotation.Annotation
 fun AnnotationAlertDialog(
     modifier: Modifier = Modifier,
     onComplete: (Annotation) -> Unit = {},
+    onDismiss: () -> Unit
 ) {
     var exerciseText by remember { mutableStateOf("") }
     var typeText by remember { mutableStateOf("") }
@@ -49,7 +51,8 @@ fun AnnotationAlertDialog(
 
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = { }
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(),
     ) {
         Box(modifier = Modifier.background(Color.White)) {
             Column {
@@ -112,7 +115,7 @@ fun AnnotationAlertDialog(
                     OutlinedTextField(
                         modifier = Modifier
                             .padding(4.dp)
-                            .weight(1.6f),
+                            .weight(1.4f),
                         value = weightText,
                         singleLine = true,
                         onValueChange = { weightText = it },
@@ -137,7 +140,6 @@ fun AnnotationAlertDialog(
             }
         }
     }
-
 }
 
 private fun setAnnotationByType(
@@ -152,6 +154,6 @@ private fun setAnnotationByType(
 
 @Composable
 @Preview(showBackground = true, widthDp = 300)
-fun AnnotationAlertDialogPreview() {
-    AnnotationAlertDialog()
+private fun AnnotationAlertDialogPreview() {
+//    AnnotationAlertDialog()
 }

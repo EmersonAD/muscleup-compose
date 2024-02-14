@@ -1,18 +1,14 @@
 package com.souzaemerson.muscleupgym.ui.screens.annotations.viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.souzaemerson.muscleupgym.data.model.annotation.Division
 import com.souzaemerson.muscleupgym.domain.di.repository.AnnotationsRepository
+import com.souzaemerson.muscleupgym.ui.screens.annotations.DivisionEvent
+import com.souzaemerson.muscleupgym.ui.screens.annotations.DivisionState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,42 +16,77 @@ class AnnotationViewModel @Inject constructor(
     private val annotationsRepository: AnnotationsRepository
 ) : ViewModel() {
 
-    private val _annotations: MutableStateFlow<List<Division>> = MutableStateFlow(emptyList())
-    val annotations: StateFlow<List<Division>> = _annotations
+    private val _annotations = mutableStateOf(DivisionState())
+    val annotations: State<DivisionState> = _annotations
 
     init {
-        getAllAnnotations()
+        getAllDivisions()
     }
 
-    private fun getAllAnnotations() {
-        viewModelScope.launch {
-            annotationsRepository.getAllAnnotations().onEach {
-                _annotations.value = it
-            }.launchIn(viewModelScope)
-        }
-    }
+    fun onEvent(event: DivisionEvent) {
+        when (event) {
+            is DivisionEvent.AddDivision -> {
+                _annotations.value = annotations.value.copy(
+                    addingDivision = true
+                )
+                viewModelScope.launch {
+                    annotationsRepository.createDivision(event.division)
+                }
+            }
 
-    fun createAnnotationDivision(division: Division) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                annotationsRepository.createDivision(division)
+            is DivisionEvent.CreateAnnotations -> {
+                viewModelScope.launch {
+                    annotationsRepository.updateDivision(event.division)
+                }
+            }
+
+            is DivisionEvent.DeleteDivision -> {
+                viewModelScope.launch {
+                    annotationsRepository.delete(event.division)
+                }
             }
         }
     }
 
-    fun updateAnnotationDivision(division: Division) {
+    private fun getAllDivisions() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                annotationsRepository.updateDivision(division)
+            annotationsRepository.getAllAnnotations().collect { divisions ->
+                _annotations.value = annotations.value.copy(
+                    divisions = divisions
+                )
             }
         }
     }
 
-    fun deleteAnnotationDivision(division: Division) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                annotationsRepository.delete(division)
-            }
-        }
-    }
+//    private fun getAllAnnotations() {
+//        viewModelScope.launch {
+//            annotationsRepository.getAllAnnotations().onEach {
+//                _annotations.value = it
+//            }.launchIn(viewModelScope)
+//        }
+//    }
+//
+//    fun createAnnotationDivision(division: Division) {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//                annotationsRepository.createDivision(division)
+//            }
+//        }
+//    }
+//
+//    fun updateAnnotationDivision(division: Division) {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//                annotationsRepository.updateDivision(division)
+//            }
+//        }
+//    }
+//
+//    fun deleteAnnotationDivision(division: Division) {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//                annotationsRepository.delete(division)
+//            }
+//        }
+//    }
 }

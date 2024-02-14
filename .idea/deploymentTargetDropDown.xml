@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AnnotationAlertDialogPreview">
+        <State />
+      </entry>
       <entry key="AnnotationBottomSheetPreview">
         <State />
       </entry>
@@ -12,9 +15,6 @@
         <State />
       </entry>
       <entry key="ExerciseItemPreview">
-        <State />
-      </entry>
-      <entry key="ExerciseItemPreview (1)">
         <State />
       </entry>
       <entry key="app">
