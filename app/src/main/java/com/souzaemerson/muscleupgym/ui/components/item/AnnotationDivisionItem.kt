@@ -1,6 +1,8 @@
 package com.souzaemerson.muscleupgym.ui.components.item
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,17 +16,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.souzaemerson.muscleupgym.data.model.annotation.Annotation
@@ -36,6 +32,7 @@ fun AnnotationDivisionItem(
     division: Division,
     onAdd: () -> Unit,
     onDelete: () -> Unit,
+    onModifyAnnotation: (annotation: Annotation) -> Unit
 ) {
 
     Column(
@@ -84,23 +81,35 @@ fun AnnotationDivisionItem(
                 AnnotationContent(
                     exercise = annotation.exercise,
                     weight = annotation.weight,
-                    plates = annotation.plates
+                    plates = annotation.plates,
+                    onLongClick = { onModifyAnnotation(annotation) }
                 )
             }
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AnnotationContent(exercise: String, weight: Int?, plates: Int?) {
-    Column {
+fun AnnotationContent(exercise: String, weight: Int?, plates: Int?, onLongClick: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .combinedClickable(
+                onClick = {},
+                onLongClick = onLongClick
+            )
+            .background(Color.Black)
+    ) {
+        Divider(color = Color.White.copy(0.2f))
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(2.dp)
+                .padding(2.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = exercise, fontWeight = FontWeight.Light,
+                text = exercise.replaceFirstChar { it.uppercase() }, fontWeight = FontWeight.Light,
                 color = Color.White,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -114,7 +123,7 @@ fun AnnotationContent(exercise: String, weight: Int?, plates: Int?) {
                 fontWeight = FontWeight.Light
             )
         }
-        Divider(color = Color.White.copy(0.2f))
+        Divider(color = Color.White.copy(0.1f))
     }
 }
 
@@ -124,6 +133,7 @@ private fun AnnotationCategoryItemPreview() {
     AnnotationDivisionItem(
         division = Division("Teste", emptyList()),
         onAdd = {},
-        onDelete = {}
+        onDelete = {},
+        onModifyAnnotation = {}
     )
 }

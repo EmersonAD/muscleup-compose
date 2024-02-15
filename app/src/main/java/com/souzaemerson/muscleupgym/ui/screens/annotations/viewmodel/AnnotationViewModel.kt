@@ -34,7 +34,7 @@ class AnnotationViewModel @Inject constructor(
                 }
             }
 
-            is DivisionEvent.CreateAnnotations -> {
+            is DivisionEvent.UpdateDivision -> {
                 viewModelScope.launch {
                     annotationsRepository.updateDivision(event.division)
                 }
