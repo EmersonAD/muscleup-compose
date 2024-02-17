@@ -1,5 +1,7 @@
 package com.souzaemerson.muscleupgym.domain.di.module
 
+import com.souzaemerson.muscleupgym.data.source.local.bmi.BmiDataSource
+import com.souzaemerson.muscleupgym.data.source.local.bmi.BmiDataSourceImpl
 import com.souzaemerson.muscleupgym.data.source.remote.ExerciseDataSource
 import com.souzaemerson.muscleupgym.data.source.remote.ExerciseDataSourceImpl
 import dagger.Binds

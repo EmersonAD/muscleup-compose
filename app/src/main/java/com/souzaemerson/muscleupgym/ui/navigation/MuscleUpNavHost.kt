@@ -7,6 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.souzaemerson.muscleupgym.data.source.local.bmi.BmiDataSourceImpl
 import com.souzaemerson.muscleupgym.ui.components.navigation.util.BottomNavigationItem
 import com.souzaemerson.muscleupgym.ui.components.navigation.util.BottomNavigationItem.Body
 import com.souzaemerson.muscleupgym.ui.components.navigation.util.BottomNavigationItem.Home
@@ -14,6 +15,8 @@ import com.souzaemerson.muscleupgym.ui.screens.annotations.AnnotationScreen
 import com.souzaemerson.muscleupgym.ui.screens.annotations.viewmodel.AnnotationViewModel
 import com.souzaemerson.muscleupgym.ui.screens.exercises.HomeScreen
 import com.souzaemerson.muscleupgym.ui.screens.exercises.viewmodel.HomeViewModel
+import com.souzaemerson.muscleupgym.ui.screens.imc.BodyMassIndexScreen
+import com.souzaemerson.muscleupgym.ui.screens.imc.viewmodel.BodyMassIndexViewModel
 
 @Composable
 fun MuscleUpNavHost(
@@ -36,7 +39,8 @@ fun MuscleUpNavHost(
             AnnotationScreen(viewModel = annotationViewModel)
         }
         composable(route = Body.route) {
-
+            val bodyMassIndexViewModel = BodyMassIndexViewModel(BmiDataSourceImpl())
+            BodyMassIndexScreen(viewModel = bodyMassIndexViewModel)
         }
     }
 }

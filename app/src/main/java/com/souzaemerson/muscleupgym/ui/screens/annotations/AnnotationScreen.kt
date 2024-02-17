@@ -81,10 +81,13 @@ fun AnnotationScreen(
         if (showConfirmAlert) {
             ConfirmationAlertDialog(
                 title = "Deseja remover a anotação selecionada?",
-                onDismissRequest = { showConfirmAlert = false },
-                onConfirm = {
-                    ConfirmButton(state, annotation, division, viewModel)
+                onDismissRequest = {
                     showConfirmAlert = false
+                },
+                onConfirm = {
+                    ConfirmButton(state, annotation, division, viewModel) {
+                        showConfirmAlert = false
+                    }
                 }
             )
         }
@@ -101,8 +104,9 @@ private fun ConfirmButton(
     annotation: Annotation,
     division: Division,
     viewModel: AnnotationViewModel,
+    onConclude: () -> Unit,
 ) {
-    var _division = division
+    var internDivision = division
 
     Text(text = "Sim", modifier = Modifier.clickable {
 
@@ -111,14 +115,15 @@ private fun ConfirmButton(
         }
 
         selectedDivision?.let {
-            _division = it
-            val test = _division.copy(
+            internDivision = it
+            val test = internDivision.copy(
                 division = it.division,
                 annotations = it.annotations.toMutableList().also { annotations ->
                     annotations.remove(annotation)
                 }
             )
             viewModel.onEvent(DivisionEvent.UpdateDivision(test))
+            onConclude()
         }
     })
 }
@@ -161,7 +166,7 @@ private fun DivisionList(
     LazyColumn {
         items(items = state) {
             AnnotationDivisionItem(
-                modifier = Modifier.padding(1.dp),
+                modifier = Modifier,
                 division = it,
                 onAdd = {
                     onAddDivision(it)

@@ -23,7 +23,9 @@ fun ConfirmationAlertDialog(
             bottomStart = 0f,
             bottomEnd = 0f
         ),
-        confirmButton = { onConfirm() },
+        confirmButton = {
+            onConfirm()
+        },
         title = { Text(text = title, fontSize = 14.sp) },
     )
 }

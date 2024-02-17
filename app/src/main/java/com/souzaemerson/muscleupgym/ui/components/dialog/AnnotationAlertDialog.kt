@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,7 +59,7 @@ fun AnnotationAlertDialog(
             Column {
 
                 Text(
-                    text = "Anote seu exercicio:",
+                    text = "Write your exercise",
                     color = Color.Gray,
                     modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 4.dp)
                 )
@@ -69,8 +70,14 @@ fun AnnotationAlertDialog(
                         .padding(start = 8.dp, end = 8.dp),
                     value = exerciseText,
                     singleLine = true,
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                    ),
                     onValueChange = { exerciseText = it },
-                    label = { Text(text = "Exercise") },
+                    label = { Text(text = "Exercise", color = Color.DarkGray.copy(alpha = 0.8f)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                 )
 
@@ -83,7 +90,19 @@ fun AnnotationAlertDialog(
                         value = typeText,
                         onValueChange = { typeText = it },
                         readOnly = true,
-                        label = { Text(text = "Type", fontSize = 14.sp) },
+                        colors = TextFieldDefaults.colors(
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White,
+                        ),
+                        label = {
+                            Text(
+                                text = "Type",
+                                fontSize = 14.sp,
+                                color = Color.DarkGray.copy(alpha = 0.8f)
+                            )
+                        },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         singleLine = true,
                         trailingIcon = {
@@ -117,15 +136,26 @@ fun AnnotationAlertDialog(
                             .padding(4.dp)
                             .weight(1.4f),
                         value = weightText,
+                        colors = TextFieldDefaults.colors(
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black,
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White,
+                        ),
                         singleLine = true,
                         onValueChange = { weightText = it },
-                        label = { Text(text = "Weight/Count") },
+                        label = {
+                            Text(
+                                text = "Weight/Count",
+                                color = Color.DarkGray.copy(alpha = 0.8f)
+                            )
+                        },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
 
                 }
                 Text(
-                    text = "CONCLUIR",
+                    text = "FINISH",
                     modifier = Modifier
                         .padding(end = 16.dp, top = 4.dp, bottom = 12.dp)
                         .clickable(enabled = isComplete, role = Role.Button) {
@@ -134,7 +164,7 @@ fun AnnotationAlertDialog(
                         .align(AbsoluteAlignment.Right),
                     fontSize = 16.sp,
                     color = if (isComplete) Color.Black else Color.Gray,
-                    fontWeight = FontWeight.W300,
+                    fontWeight = FontWeight.W400,
                     textAlign = TextAlign.End
                 )
             }
