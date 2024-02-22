@@ -47,7 +47,7 @@ fun AnnotationScreen(
             CreateDivisionBottomSheet(
                 onDismiss = { viewModel.closeBottomSheet() },
                 onCreateDivision = { division ->
-                    viewModel.onEvent(DivisionEvent.CreateDivision(division))
+                    viewModel.onEvent(AnnotationEvent.CreateDivision(division))
                 }
             )
         }
@@ -56,7 +56,7 @@ fun AnnotationScreen(
             CreateAnnotationAlertDialog(
                 onComplete = { annotation ->
                     viewModel.onEvent(
-                        DivisionEvent.InsertAnnotationIntoDivision(currentDivision, annotation)
+                        AnnotationEvent.CreateAnnotation(currentDivision, annotation)
                     )
                 },
                 onDismiss = {
@@ -82,11 +82,13 @@ fun AnnotationScreen(
                             weight = currentAnnotation.weight?.toString()
                                 ?: currentAnnotation.plates.toString(),
                             onComplete = { annotation ->
-                                viewModel.onEvent(DivisionEvent.UpdateAnnotation(
-                                    selectedDivision,
-                                    currentAnnotation,
-                                    annotation
-                                ))
+                                viewModel.onEvent(
+                                    AnnotationEvent.UpdateAnnotation(
+                                        selectedDivision,
+                                        currentAnnotation,
+                                        annotation
+                                    )
+                                )
                             },
                             onDismiss = {
                                 viewModel.closeUpdateAnnotationAlert()
@@ -96,14 +98,12 @@ fun AnnotationScreen(
                     }
                 },
                 onRemove = {
-                    val updatedAnnotations = selectedDivision.annotations.toMutableList().also {
-                        it.remove(currentAnnotation)
-                    }
-                    val updatedDivision = selectedDivision.copy(
-                        annotations = updatedAnnotations
+                    viewModel.onEvent(
+                        AnnotationEvent.RemoveAnnotation(
+                            selectedDivision,
+                            currentAnnotation
+                        )
                     )
-                    viewModel.onEvent(DivisionEvent.UpdateDivision(updatedDivision))
-                    viewModel.closeDecisionAlert()
                 }, onDismissRequest = {
                     viewModel.closeDecisionAlert()
                 }
@@ -116,7 +116,7 @@ fun AnnotationScreen(
                 currentDivision = selectedDivision
                 viewModel.openCreateAnnotationAlert()
             },
-            onDelete = { viewModel.onEvent(DivisionEvent.DeleteDivision(it)) },
+            onDelete = { viewModel.onEvent(AnnotationEvent.DeleteDivision(it)) },
             onModifyAnnotation = { selectedAnnotation ->
                 currentAnnotation = selectedAnnotation
                 viewModel.openDecisionAlert()

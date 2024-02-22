@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.souzaemerson.muscleupgym.domain.di.repository.AnnotationsRepository
 import com.souzaemerson.muscleupgym.domain.di.usecase.InsertAnnotationUseCase
+import com.souzaemerson.muscleupgym.domain.di.usecase.RemoveAnnotationUseCase
 import com.souzaemerson.muscleupgym.domain.di.usecase.UpdateAnnotationUseCase
-import com.souzaemerson.muscleupgym.ui.screens.annotations.DivisionEvent
+import com.souzaemerson.muscleupgym.ui.screens.annotations.AnnotationEvent
 import com.souzaemerson.muscleupgym.ui.screens.annotations.AnnotationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class AnnotationViewModel @Inject constructor(
     private val annotationsRepository: AnnotationsRepository,
     private val updateAnnotation: UpdateAnnotationUseCase,
-    private val insertAnnotation: InsertAnnotationUseCase
+    private val insertAnnotation: InsertAnnotationUseCase,
+    private val removeAnnotation: RemoveAnnotationUseCase
 ) : ViewModel() {
 
     var annotationState by mutableStateOf(AnnotationState())
@@ -31,9 +33,9 @@ class AnnotationViewModel @Inject constructor(
         getAllDivisions()
     }
 
-    fun onEvent(event: DivisionEvent) {
+    fun onEvent(event: AnnotationEvent) {
         when (event) {
-            is DivisionEvent.CreateDivision -> {
+            is AnnotationEvent.CreateDivision -> {
                 viewModelScope.launch {
                     withContext(Dispatchers.IO) {
                         annotationsRepository.createDivision(event.division)
@@ -44,7 +46,7 @@ class AnnotationViewModel @Inject constructor(
                 }
             }
 
-            is DivisionEvent.UpdateDivision -> {
+            is AnnotationEvent.UpdateDivision -> {
                 viewModelScope.launch {
                     withContext(Dispatchers.IO) {
                         annotationsRepository.updateDivision(event.division)
@@ -52,7 +54,7 @@ class AnnotationViewModel @Inject constructor(
                 }
             }
 
-            is DivisionEvent.DeleteDivision -> {
+            is AnnotationEvent.DeleteDivision -> {
                 viewModelScope.launch {
                     withContext(Dispatchers.IO) {
                         annotationsRepository.delete(event.division)
@@ -60,7 +62,7 @@ class AnnotationViewModel @Inject constructor(
                 }
             }
 
-            is DivisionEvent.InsertAnnotationIntoDivision -> {
+            is AnnotationEvent.CreateAnnotation -> {
                 viewModelScope.launch {
                     withContext(Dispatchers.IO) {
                         insertAnnotation(event.division, event.annotation)
@@ -72,7 +74,7 @@ class AnnotationViewModel @Inject constructor(
                 }
             }
 
-            is DivisionEvent.UpdateAnnotation -> {
+            is AnnotationEvent.UpdateAnnotation -> {
                 viewModelScope.launch {
                     updateAnnotation(event.division, event.oldAnnotation, event.newAnnotation)
                     annotationState = annotationState.copy(
@@ -80,6 +82,18 @@ class AnnotationViewModel @Inject constructor(
                         showUpdateAnnotationAlert = false,
                         showDecisionAlert = false
                     )
+                }
+            }
+
+            is AnnotationEvent.RemoveAnnotation -> {
+                viewModelScope.launch {
+                    withContext(Dispatchers.IO) {
+                        removeAnnotation(event.division, event.annotation)
+                        annotationState = annotationState.copy(
+                            divisions = annotationsRepository.getAllDivisions().first(),
+                            showDecisionAlert = false
+                        )
+                    }
                 }
             }
         }

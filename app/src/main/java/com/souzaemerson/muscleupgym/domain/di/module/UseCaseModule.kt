@@ -1,8 +1,10 @@
 package com.souzaemerson.muscleupgym.domain.di.module
 
 import com.souzaemerson.muscleupgym.data.usecase.InsertAnnotationUseCaseImpl
+import com.souzaemerson.muscleupgym.data.usecase.RemoveAnnotationUseCaseImpl
 import com.souzaemerson.muscleupgym.data.usecase.UpdateAnnotationUseCaseImpl
 import com.souzaemerson.muscleupgym.domain.di.usecase.InsertAnnotationUseCase
+import com.souzaemerson.muscleupgym.domain.di.usecase.RemoveAnnotationUseCase
 import com.souzaemerson.muscleupgym.domain.di.usecase.UpdateAnnotationUseCase
 import dagger.Binds
 import dagger.Module
@@ -22,5 +24,10 @@ abstract class UseCaseModule {
     abstract fun bindInsertAnnotation(
         insertAnnotationUseCaseImpl: InsertAnnotationUseCaseImpl
     ): InsertAnnotationUseCase
+
+    @Binds
+    abstract fun bindRemoveAnnotation(
+        removeAnnotationUseCaseImpl: RemoveAnnotationUseCaseImpl
+    ): RemoveAnnotationUseCase
 
 }
