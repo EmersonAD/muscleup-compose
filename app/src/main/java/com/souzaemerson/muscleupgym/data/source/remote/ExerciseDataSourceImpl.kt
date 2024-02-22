@@ -3,6 +3,8 @@ package com.souzaemerson.muscleupgym.data.source.remote
 import com.souzaemerson.muscleupgym.data.source.remote.service.ExerciseService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.Cache
+import okhttp3.internal.cacheGet
 import javax.inject.Inject
 
 interface ExerciseDataSource {
@@ -12,8 +14,9 @@ interface ExerciseDataSource {
 class ExerciseDataSourceImpl @Inject constructor(
     private val exerciseApi: ExerciseService,
 ) : ExerciseDataSource {
+
     override fun fetchData(): Flow<List<String>> = flow {
-        emit(exerciseApi.getBodyParts())
+//        emit(exerciseApi.getBodyParts())
     }
 }
 

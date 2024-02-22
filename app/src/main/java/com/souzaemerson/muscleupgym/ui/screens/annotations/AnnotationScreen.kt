@@ -1,7 +1,6 @@
 package com.souzaemerson.muscleupgym.ui.screens.annotations
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,9 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.souzaemerson.muscleupgym.data.model.annotation.Annotation
 import com.souzaemerson.muscleupgym.data.model.annotation.Division
-import com.souzaemerson.muscleupgym.ui.components.AnnotationBottomSheet
-import com.souzaemerson.muscleupgym.ui.components.dialog.AnnotationAlertDialog
-import com.souzaemerson.muscleupgym.ui.components.dialog.ConfirmationAlertDialog
+import com.souzaemerson.muscleupgym.ui.components.CreateDivisionBottomSheet
+import com.souzaemerson.muscleupgym.ui.components.dialog.CreateAnnotationAlertDialog
+import com.souzaemerson.muscleupgym.ui.components.dialog.GenericAlertDialog
 import com.souzaemerson.muscleupgym.ui.components.item.AnnotationDivisionItem
 import com.souzaemerson.muscleupgym.ui.screens.annotations.viewmodel.AnnotationViewModel
 
@@ -35,143 +33,116 @@ fun AnnotationScreen(
     modifier: Modifier = Modifier,
     viewModel: AnnotationViewModel,
 ) {
-    val state = viewModel.annotations.value
-
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(color = Color.DarkGray)
     ) {
-        var showBottomSheet by remember { mutableStateOf(false) }
-        var showCreateAnnotationAlert by remember { mutableStateOf(false) }
-        var showConfirmAlert by remember { mutableStateOf(false) }
-        var division by remember { mutableStateOf(Division("", listOf())) }
-        var annotation by remember { mutableStateOf(Annotation("")) }
+        val state = viewModel.annotationState
 
-        if (showBottomSheet) {
-            AnnotationBottomSheet(onDismiss = {
-                showBottomSheet = false
-            }, onCreateDivision = {
-                viewModel.onEvent(DivisionEvent.AddDivision(it))
-                showBottomSheet = false
-            })
-        }
+        var currentDivision by remember { mutableStateOf(Division("", emptyList())) }
+        var currentAnnotation by remember { mutableStateOf(Annotation("")) }
 
-        if (showCreateAnnotationAlert) {
-            UpdateAnnotation(
-                currentDivision = division,
-                onDismiss = { showCreateAnnotationAlert = false },
-                viewModel = viewModel
-            )
-        }
-
-        DivisionList(
-            state.divisions,
-            onAddDivision = { currentDivision ->
-                division = currentDivision
-                showCreateAnnotationAlert = true
-            },
-            onDelete = { viewModel.onEvent(DivisionEvent.DeleteDivision(it)) },
-            onModifyAnnotation = {
-                showConfirmAlert = true
-                annotation = it
-            }
-        )
-
-        if (showConfirmAlert) {
-            ConfirmationAlertDialog(
-                title = "Deseja remover a anotação selecionada?",
-                onDismissRequest = {
-                    showConfirmAlert = false
-                },
-                onConfirm = {
-                    ConfirmButton(state, annotation, division, viewModel) {
-                        showConfirmAlert = false
-                    }
+        if (state.showBottomSheet) {
+            CreateDivisionBottomSheet(
+                onDismiss = { viewModel.closeBottomSheet() },
+                onCreateDivision = { division ->
+                    viewModel.onEvent(DivisionEvent.CreateDivision(division))
                 }
             )
         }
 
+        if (state.showCreateAnnotationAlert) {
+            CreateAnnotationAlertDialog(
+                onComplete = { annotation ->
+                    viewModel.onEvent(
+                        DivisionEvent.InsertAnnotationIntoDivision(currentDivision, annotation)
+                    )
+                },
+                onDismiss = {
+                    viewModel.closeCreateAnnotationAlert()
+                }
+            )
+        }
+
+        if (state.showDecisionAlert) {
+
+            val selectedDivision = state.divisions.first {
+                it.annotations.contains(currentAnnotation)
+            }
+
+            GenericAlertDialog(
+                title = "Deseja remover ou editar a anotação selecionada?",
+                onEdit = {
+                    viewModel.openUpdateAnnotationAlert()
+                    if (state.showUpdateAnnotationAlert) {
+                        CreateAnnotationAlertDialog(
+                            exercise = currentAnnotation.exercise,
+                            type = currentAnnotation.plates?.let { "Plates" } ?: "Weight",
+                            weight = currentAnnotation.weight?.toString()
+                                ?: currentAnnotation.plates.toString(),
+                            onComplete = { annotation ->
+                                viewModel.onEvent(DivisionEvent.UpdateAnnotation(
+                                    selectedDivision,
+                                    currentAnnotation,
+                                    annotation
+                                ))
+                            },
+                            onDismiss = {
+                                viewModel.closeUpdateAnnotationAlert()
+                                viewModel.closeDecisionAlert()
+                            }
+                        )
+                    }
+                },
+                onRemove = {
+                    val updatedAnnotations = selectedDivision.annotations.toMutableList().also {
+                        it.remove(currentAnnotation)
+                    }
+                    val updatedDivision = selectedDivision.copy(
+                        annotations = updatedAnnotations
+                    )
+                    viewModel.onEvent(DivisionEvent.UpdateDivision(updatedDivision))
+                    viewModel.closeDecisionAlert()
+                }, onDismissRequest = {
+                    viewModel.closeDecisionAlert()
+                }
+            )
+        }
+
+        DivisionList(
+            divisions = state.divisions,
+            addAnnotationIntoDivision = { selectedDivision ->
+                currentDivision = selectedDivision
+                viewModel.openCreateAnnotationAlert()
+            },
+            onDelete = { viewModel.onEvent(DivisionEvent.DeleteDivision(it)) },
+            onModifyAnnotation = { selectedAnnotation ->
+                currentAnnotation = selectedAnnotation
+                viewModel.openDecisionAlert()
+            }
+        )
+
         FabAdd(modifier = Modifier.align(Alignment.BottomEnd)) {
-            showBottomSheet = true
+            viewModel.openBottomSheet()
         }
     }
 }
 
 @Composable
-private fun ConfirmButton(
-    state: DivisionState,
-    annotation: Annotation,
-    division: Division,
-    viewModel: AnnotationViewModel,
-    onConclude: () -> Unit,
-) {
-    var internDivision = division
-
-    Text(text = "Sim", modifier = Modifier.clickable {
-
-        val selectedDivision = state.divisions.find {
-            it.annotations.contains(annotation)
-        }
-
-        selectedDivision?.let {
-            internDivision = it
-            val test = internDivision.copy(
-                division = it.division,
-                annotations = it.annotations.toMutableList().also { annotations ->
-                    annotations.remove(annotation)
-                }
-            )
-            viewModel.onEvent(DivisionEvent.UpdateDivision(test))
-            onConclude()
-        }
-    })
-}
-
-@Composable
-private fun UpdateAnnotation(
-    currentDivision: Division,
-    onDismiss: () -> Unit,
-    viewModel: AnnotationViewModel
-) {
-    AnnotationAlertDialog(
-        onComplete = { annotation ->
-            val division = currentDivision.copy(
-                division = currentDivision.division,
-                annotations = currentDivision.annotations.toMutableList().also {
-                    it.add(
-                        Annotation(
-                            exercise = annotation.exercise,
-                            weight = annotation.weight,
-                            plates = annotation.plates
-                        )
-                    )
-                }
-            )
-            viewModel.onEvent(DivisionEvent.UpdateDivision(division))
-            onDismiss()
-        }, onDismiss = {
-            onDismiss()
-        }
-    )
-}
-
-@Composable
 private fun DivisionList(
-    state: List<Division>,
-    onAddDivision: (division: Division) -> Unit,
+    divisions: List<Division>,
+    addAnnotationIntoDivision: (division: Division) -> Unit,
     onDelete: (division: Division) -> Unit,
     onModifyAnnotation: (annotation: Annotation) -> Unit
 ) {
     LazyColumn {
-        items(items = state) {
+        items(items = divisions) { division ->
             AnnotationDivisionItem(
-                modifier = Modifier,
-                division = it,
-                onAdd = {
-                    onAddDivision(it)
-                },
-                onDelete = { onDelete(it) },
+                modifier = Modifier.padding(bottom = 1.dp),
+                division = division,
+                onAdd = { addAnnotationIntoDivision(division) },
+                onDelete = { onDelete(division) },
                 onModifyAnnotation = { annotation ->
                     onModifyAnnotation(annotation)
                 }
@@ -184,8 +155,7 @@ private fun DivisionList(
 fun FabAdd(modifier: Modifier = Modifier, onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
-        modifier = modifier
-            .padding(22.dp),
+        modifier = modifier.padding(22.dp),
         containerColor = Color.White.copy(alpha = 0.9f)
     ) {
         Icon(imageVector = Icons.Sharp.Add, contentDescription = "Add fab")

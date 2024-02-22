@@ -3,6 +3,7 @@ package com.souzaemerson.muscleupgym.ui.screens.imc
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +31,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
@@ -156,12 +158,12 @@ fun BodyMassIndexScreen(modifier: Modifier = Modifier, viewModel: BodyMassIndexV
                 }
 
                 CircularProgressIndicator(
-                    progress = bmIndex.toFloat() / 40,
+                    progress = (bmIndex.toFloat() / 40),
                     modifier = Modifier.size(100.dp),
                     strokeWidth = 20.dp,
                     strokeCap = StrokeCap.Butt,
                     color = Color.DarkGray,
-                    trackColor = setColorByIndex(bmiValue.second),
+                    trackColor = Color.Gray,
                 )
 
                 Text(
@@ -182,15 +184,6 @@ fun BodyMassIndexScreen(modifier: Modifier = Modifier, viewModel: BodyMassIndexV
             )
         }
     }
-}
-
-private fun setColorByIndex(bmIndex: String) = when(bmIndex) {
-    "Abaixo do peso" -> Color.Yellow
-    "Peso normal" -> Color.Green
-    "Acima do peso" -> Color.Red.copy(red = 1f, green = 0.6f)
-    "Sobrepeso" -> Color.Red.copy(red = 1f, green = 0.5f)
-    "Obesidade grau I" -> Color.Red
-    else -> Color.Red
 }
 
 @Composable

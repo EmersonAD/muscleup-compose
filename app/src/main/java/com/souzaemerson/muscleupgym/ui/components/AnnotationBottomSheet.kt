@@ -23,7 +23,7 @@ import com.souzaemerson.muscleupgym.data.model.annotation.Division
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnnotationBottomSheet(
+fun CreateDivisionBottomSheet(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     onCreateDivision: (Division) -> Unit

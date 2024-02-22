@@ -11,8 +11,7 @@ class BodyPartsRepositoryImpl @Inject constructor(
 ) : BodyPartsRepository {
 
     override suspend fun getBodyParts(): Flow<List<String>> {
-        return dataSource.fetchData()
-            .map {
+        return dataSource.fetchData().map {
                 it.filter { bodyPart -> bodyPart.isNotEmpty() }
             }
     }

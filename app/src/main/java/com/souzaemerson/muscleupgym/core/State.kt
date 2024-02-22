@@ -1,10 +1,10 @@
 package com.souzaemerson.muscleupgym.core
 
 data class State<out T>(
-    val status: Status,
-    val data: T?,
-    val loading: Boolean,
-    val error: Throwable?
+    val status: Status = Status.Loading,
+    val data: T? = null,
+    val loading: Boolean = false,
+    val error: Throwable? = null
 ) {
     companion object {
         fun loading() = State(Status.Loading, null, loading = true, error = null)

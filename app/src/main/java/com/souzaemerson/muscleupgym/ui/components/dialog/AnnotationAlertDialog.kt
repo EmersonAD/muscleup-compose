@@ -39,14 +39,17 @@ import com.souzaemerson.muscleupgym.data.model.annotation.Annotation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnnotationAlertDialog(
+fun CreateAnnotationAlertDialog(
     modifier: Modifier = Modifier,
     onComplete: (Annotation) -> Unit = {},
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    exercise: String = "",
+    type: String = "",
+    weight: String = ""
 ) {
-    var exerciseText by remember { mutableStateOf("") }
-    var typeText by remember { mutableStateOf("") }
-    var weightText by remember { mutableStateOf("") }
+    var exerciseText by remember { mutableStateOf(exercise) }
+    var typeText by remember { mutableStateOf(type) }
+    var weightText by remember { mutableStateOf(weight) }
     var isExpanded by remember { mutableStateOf(false) }
     val isComplete = exerciseText.isNotBlank() && typeText.isNotBlank() && weightText.isNotBlank()
 
