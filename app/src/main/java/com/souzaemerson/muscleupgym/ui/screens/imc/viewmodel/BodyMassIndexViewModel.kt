@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.souzaemerson.muscleupgym.data.source.local.bmi.BmiDataSource
 import com.souzaemerson.muscleupgym.ui.screens.imc.BmiEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class BodyMassIndexViewModel(
+@HiltViewModel
+class BodyMassIndexViewModel @Inject constructor(
     private val bmiDataSource: BmiDataSource
 ) : ViewModel() {
 

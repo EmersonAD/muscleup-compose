@@ -1,12 +1,8 @@
 package com.souzaemerson.muscleupgym.data.source.local.bmi
 
-interface BmiDataSource {
-    fun getBodyMassIndex(age: Int, height: Float, weight: Double): Pair<Double, String>
-}
+class BmiDataSource() {
 
-class BmiDataSourceImpl : BmiDataSource {
-
-    override fun getBodyMassIndex(age: Int, height: Float, weight: Double): Pair<Double, String> {
+    fun getBodyMassIndex(age: Int, height: Float, weight: Double): Pair<Double, String> {
         val correctHeight = height/100
         val bmi = weight / (correctHeight * correctHeight)
         return getBmiClassification(age, bmi)
