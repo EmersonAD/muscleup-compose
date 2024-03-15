@@ -1,9 +1,8 @@
 package com.souzaemerson.muscleupgym.data.repository
 
 import com.souzaemerson.muscleupgym.data.database.dao.AnnotationDao
-import com.souzaemerson.muscleupgym.data.model.annotation.Annotation
 import com.souzaemerson.muscleupgym.data.model.annotation.Division
-import com.souzaemerson.muscleupgym.domain.di.repository.AnnotationsRepository
+import com.souzaemerson.muscleupgym.domain.repository.AnnotationsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -20,7 +19,4 @@ class AnnotationsRepositoryImpl @Inject constructor(
         annotationsDao.updateDivision(division)
 
     override suspend fun delete(division: Division) = annotationsDao.delete(division)
-
-    override suspend fun insertAnnotationIntoDivision(division: Division, annotation: Annotation) =
-        annotationsDao.insertAnnotationIntoDivision(division, annotation)
 }

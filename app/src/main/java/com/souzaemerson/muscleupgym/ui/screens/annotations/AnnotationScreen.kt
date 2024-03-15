@@ -26,6 +26,7 @@ import com.souzaemerson.muscleupgym.ui.components.CreateDivisionBottomSheet
 import com.souzaemerson.muscleupgym.ui.components.dialog.CreateAnnotationAlertDialog
 import com.souzaemerson.muscleupgym.ui.components.dialog.GenericAlertDialog
 import com.souzaemerson.muscleupgym.ui.components.item.AnnotationDivisionItem
+import com.souzaemerson.muscleupgym.ui.screens.annotations.util.AnnotationEvent
 import com.souzaemerson.muscleupgym.ui.screens.annotations.viewmodel.AnnotationViewModel
 
 @Composable
@@ -77,10 +78,7 @@ fun AnnotationScreen(
                     viewModel.openUpdateAnnotationAlert()
                     if (state.showUpdateAnnotationAlert) {
                         CreateAnnotationAlertDialog(
-                            exercise = currentAnnotation.exercise,
-                            type = currentAnnotation.plates?.let { "Plates" } ?: "Weight",
-                            weight = currentAnnotation.weight?.toString()
-                                ?: currentAnnotation.plates.toString(),
+                            annotation = currentAnnotation,
                             onComplete = { annotation ->
                                 viewModel.onEvent(
                                     AnnotationEvent.UpdateAnnotation(
@@ -104,6 +102,7 @@ fun AnnotationScreen(
                             currentAnnotation
                         )
                     )
+
                 }, onDismissRequest = {
                     viewModel.closeDecisionAlert()
                 }
@@ -156,7 +155,7 @@ fun FabAdd(modifier: Modifier = Modifier, onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
         modifier = modifier.padding(22.dp),
-        containerColor = Color.White.copy(alpha = 0.9f)
+        containerColor = Color.White.copy(alpha = 0.65f)
     ) {
         Icon(imageVector = Icons.Sharp.Add, contentDescription = "Add fab")
     }

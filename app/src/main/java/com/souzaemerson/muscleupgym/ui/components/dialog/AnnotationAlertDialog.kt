@@ -43,13 +43,11 @@ fun CreateAnnotationAlertDialog(
     modifier: Modifier = Modifier,
     onComplete: (Annotation) -> Unit = {},
     onDismiss: () -> Unit,
-    exercise: String = "",
-    type: String = "",
-    weight: String = ""
+    annotation: Annotation = Annotation(""),
 ) {
-    var exerciseText by remember { mutableStateOf(exercise) }
-    var typeText by remember { mutableStateOf(type) }
-    var weightText by remember { mutableStateOf(weight) }
+    var exerciseText by remember { mutableStateOf(annotation.exercise) }
+    var typeText by remember { mutableStateOf(annotation.getCurrentType()) }
+    var weightText by remember { mutableStateOf(annotation.getCurrentWeightOrPlates()) }
     var isExpanded by remember { mutableStateOf(false) }
     val isComplete = exerciseText.isNotBlank() && typeText.isNotBlank() && weightText.isNotBlank()
 
@@ -60,7 +58,6 @@ fun CreateAnnotationAlertDialog(
     ) {
         Box(modifier = Modifier.background(Color.White)) {
             Column {
-
                 Text(
                     text = "Write your exercise",
                     color = Color.Gray,

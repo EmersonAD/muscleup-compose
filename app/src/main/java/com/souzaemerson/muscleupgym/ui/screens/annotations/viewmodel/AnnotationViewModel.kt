@@ -5,15 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.souzaemerson.muscleupgym.domain.di.repository.AnnotationsRepository
-import com.souzaemerson.muscleupgym.domain.di.usecase.InsertAnnotationUseCase
-import com.souzaemerson.muscleupgym.domain.di.usecase.RemoveAnnotationUseCase
-import com.souzaemerson.muscleupgym.domain.di.usecase.UpdateAnnotationUseCase
-import com.souzaemerson.muscleupgym.ui.screens.annotations.AnnotationEvent
-import com.souzaemerson.muscleupgym.ui.screens.annotations.AnnotationState
+import com.souzaemerson.muscleupgym.domain.repository.AnnotationsRepository
+import com.souzaemerson.muscleupgym.domain.usecase.InsertAnnotationUseCase
+import com.souzaemerson.muscleupgym.domain.usecase.RemoveAnnotationUseCase
+import com.souzaemerson.muscleupgym.domain.usecase.UpdateAnnotationUseCase
+import com.souzaemerson.muscleupgym.ui.screens.annotations.util.AnnotationEvent
+import com.souzaemerson.muscleupgym.ui.screens.annotations.util.AnnotationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -148,12 +150,10 @@ class AnnotationViewModel @Inject constructor(
     }
 
     private fun getAllDivisions() {
-        viewModelScope.launch {
-            annotationsRepository.getAllDivisions().collect { divisions ->
-                annotationState = annotationState.copy(
-                    divisions = divisions
-                )
-            }
-        }
+        annotationsRepository.getAllDivisions().onEach { divisions ->
+            annotationState = annotationState.copy(
+                divisions = divisions
+            )
+        }.launchIn(viewModelScope)
     }
 }
