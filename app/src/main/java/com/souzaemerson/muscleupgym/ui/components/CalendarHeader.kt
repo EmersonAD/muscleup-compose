@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -43,18 +43,20 @@ fun DateHeader() {
 
 @Composable
 fun DateContent() {
-    val dates = rememberSaveable { mutableListOf<LocalDate>() }
+    val dates = remember { mutableListOf<LocalDate>() }
 
     LazyRow(
         modifier = Modifier.padding(top = 4.dp),
         horizontalArrangement = Arrangement.Center,
         state = rememberLazyListState(initialFirstVisibleItemIndex = 7)
     ) {
+
         items(items = CalendarDataSource.setRangeOfDates(dates)) { date ->
             CalendarItem(
                 month = date.getMonthInPortuguese()
                     .removeRange(3, date.getMonthInPortuguese().length),
                 day = date.dayOfMonth.toString(),
+                color = if (date.isBefore(LocalDate.now())) Color.LightGray else Color.White
             )
         }
     }

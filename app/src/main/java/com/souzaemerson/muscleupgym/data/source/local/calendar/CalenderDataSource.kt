@@ -1,7 +1,5 @@
 package com.souzaemerson.muscleupgym.data.source.local.calendar
 
-import com.souzaemerson.muscleupgym.ui.extensions.getDayOfWeekInPortuguese
-import com.souzaemerson.muscleupgym.ui.extensions.getMonthInPortuguese
 import java.time.LocalDate
 
 class CalendarDataSource {
@@ -22,17 +20,17 @@ class CalendarDataSource {
 
 
         fun getHeaderPhrase(): String {
-            return "${getDayOfWeek()}, \n${getDayOfMonth()} de ${
+            return "${getDayOfWeek()}, \n${getDayOfMonth()} of ${
                 getMonth().lowercase().replaceFirstChar { it.uppercase() }
-            } de ${getYear()}"
+            } of ${getYear()}."
         }
 
         private fun getDayOfWeek(): String {
-            return today.getDayOfWeekInPortuguese().replaceFirstChar { it.uppercase() }
+            return today.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
         }
 
         private fun getMonth(): String {
-            return today.getMonthInPortuguese()
+            return today.month.name.replaceFirstChar { it.uppercase() }
         }
 
         private fun getYear(): String {

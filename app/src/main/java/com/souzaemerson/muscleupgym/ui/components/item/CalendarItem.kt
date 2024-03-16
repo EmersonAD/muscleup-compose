@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -28,12 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.souzaemerson.muscleupgym.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarItem(
     modifier: Modifier = Modifier,
     month: String,
     day: String,
+    color: Color = Color.White
 ) {
     var isSelected by rememberSaveable { mutableStateOf(false) }
 
@@ -43,7 +42,7 @@ fun CalendarItem(
             .padding(2.dp),
         shape = ShapeDefaults.ExtraSmall,
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = color),
         onClick = {
             isSelected = !isSelected
         }
