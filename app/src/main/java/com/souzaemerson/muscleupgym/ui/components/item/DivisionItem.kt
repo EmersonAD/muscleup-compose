@@ -23,17 +23,19 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryItem(
+fun DivisionItem(
     modifier: Modifier = Modifier,
     bodyPart: String,
-    onClickCategory: () -> Unit = {}
+    onClickCategory: (String) -> Unit = {}
 ) {
     OutlinedCard(
-        modifier = modifier.size(100.dp).padding(4.dp),
+        modifier = modifier
+            .size(100.dp)
+            .padding(4.dp),
         elevation = CardDefaults.cardElevation(2.dp),
         border = BorderStroke(width = 1.dp, color = Color.Black),
         colors = CardDefaults.cardColors(containerColor = Color.DarkGray),
-        onClick = onClickCategory
+        onClick = { onClickCategory(bodyPart) }
     ) {
         val colors = listOf(Color.Black, Color.Transparent, Color.Transparent, Color.Black)
 
@@ -61,6 +63,6 @@ fun CategoryItem(
 
 @Composable
 @Preview(showBackground = true)
-fun CategoryItemPreview() {
-    CategoryItem(bodyPart = "Back")
+private fun DivisionItemPreview() {
+    DivisionItem(bodyPart = "Back")
 }

@@ -3,7 +3,6 @@ package com.souzaemerson.muscleupgym.domain.di.module
 import android.content.Context
 import androidx.room.Room
 import com.souzaemerson.muscleupgym.data.database.AppDatabase
-import com.souzaemerson.muscleupgym.data.database.Converters
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +20,7 @@ object DatabaseModule {
 
     @Provides
     fun provideAnnotationsDao(db: AppDatabase) = db.annotationsDao()
+
+    @Provides
+    fun provideExercisesDao(db: AppDatabase) = db.exercisesDao()
 }

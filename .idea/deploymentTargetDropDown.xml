@@ -8,17 +8,27 @@
       <entry key="AnnotationBottomSheetPreview">
         <State />
       </entry>
-      <entry key="AnnotationCategoryItemPreview">
-        <State />
-      </entry>
-      <entry key="AnnotationScreenPreview">
-        <State />
-      </entry>
       <entry key="BodyMassIndexScreenPreview">
         <State />
       </entry>
-      <entry key="app">
+      <entry key="CategoryItemPreview">
         <State />
+      </entry>
+      <entry key="app">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\hsbre\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-03-16T13:14:08.707462600Z" />
+        </State>
       </entry>
     </value>
   </component>

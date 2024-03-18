@@ -1,4 +1,4 @@
-package com.souzaemerson.muscleupgym.ui.screens.exercises
+package com.souzaemerson.muscleupgym.ui.screens.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -11,24 +11,31 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.souzaemerson.muscleupgym.ui.components.CalendarHeader
-import com.souzaemerson.muscleupgym.ui.components.item.CategoryItem
-import com.souzaemerson.muscleupgym.ui.screens.exercises.viewmodel.HomeViewModel.HomeUiState
+import com.souzaemerson.muscleupgym.ui.components.item.DivisionItem
+import com.souzaemerson.muscleupgym.ui.extensions.navigateTo
+import com.souzaemerson.muscleupgym.ui.screens.home.viewmodel.HomeViewModel
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    state: HomeUiState,
-    onNavigateToExercise: () -> Unit = {}
+    navHost: NavHostController,
+    viewModel: HomeViewModel
 ) {
     Box(
         modifier = modifier
     ) {
+
+        val state = viewModel.state.collectAsState()
+
         CalendarHeader(modifier = Modifier)
+
         Surface(
             modifier = Modifier
                 .padding(top = 150.dp)
@@ -42,20 +49,11 @@ fun HomeScreen(
                 columns = GridCells.Fixed(1),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                when (state) {
-                    HomeUiState.Loading -> {}
-                    is HomeUiState.Success -> {
-                        items(items = state.bodyParts) { category ->
-                            CategoryItem(
-                                bodyPart = category,
-                                onClickCategory = onNavigateToExercise
-                            )
-                        }
+                items(items = state.value.bodyParts) { bodyPart ->
+                    DivisionItem(bodyPart = bodyPart) {
+                        navHost.navigateTo("exercises/${it.lowercase()}")
                     }
-
-                    is HomeUiState.Error -> {}
                 }
-
             }
         }
     }
@@ -63,6 +61,6 @@ fun HomeScreen(
 
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
-fun ExercisesScreenPreview() {
+fun HomeScreenPreview() {
 //    HomeScreen()
 }

@@ -12,7 +12,6 @@ fun NavHostController.navigateTo(route: String) {
             saveState = true
         }
         launchSingleTop = true
-        restoreState = true
     }
 }
 
