@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">muscleupgym</string>
+    <string name="bmi_information">O IMC não diferencia entre massa magra (músculos) e gordura.
+        Isso significa que atletas com maior quantidade de massa muscular podem ser classificados como obesos pelo IMC,
+        mesmo que tenham baixo percentual de gordura.O IMC não diferencia entre massa magra (músculos) e gordura.
+        Isso significa que atletas com maior quantidade de massa muscular podem ser classificados como obesos pelo IMC,
+        mesmo que tenham baixo percentual de gordura.</string>
+
+    <string name="bmi_information_en">The Body Mass Index (BMI) does not differentiate between lean mass (muscles) and fat.
+        This means that athletes with a higher amount of muscle mass can be classified as obese according to BMI,
+        even if they have a low percentage of body fat.</string>
 </resources>

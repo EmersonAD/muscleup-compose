@@ -10,9 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Female
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -22,15 +25,19 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import com.souzaemerson.muscleupgym.R
 import com.souzaemerson.muscleupgym.data.source.local.bmi.BmiDataSource
 import com.souzaemerson.muscleupgym.ui.components.CardWithButtons
 import com.souzaemerson.muscleupgym.ui.components.GenderContent
@@ -43,6 +50,7 @@ fun BodyMassIndexScreen(modifier: Modifier = Modifier, viewModel: BodyMassIndexV
     var whichGenderIsActive by rememberSaveable { mutableStateOf<String?>(null) }
     var age by rememberSaveable { mutableIntStateOf(0) }
     var weight by rememberSaveable { mutableDoubleStateOf(0.0) }
+    var showInformation by remember { mutableStateOf(false) }
     val bmiValue = viewModel.bmi.value
 
     Box(
@@ -74,9 +82,17 @@ fun BodyMassIndexScreen(modifier: Modifier = Modifier, viewModel: BodyMassIndexV
 
             InformationCards(weight = { weight = it }, age = { age = it })
 
-            BmiResultCard(index = bmiValue.first.run {
-                String.format("%.1f", this)
-            }.toString(), bmiCategory = bmiValue.second)
+            BmiResultCard(
+                index = bmiValue.first.run { String.format("%.1f", this) }.toString(),
+                bmiCategory = bmiValue.second,
+                onClickInfo = {
+                    showInformation = true
+                }
+            )
+
+            if (showInformation) {
+                InformationCard(onDismiss = { showInformation = false })
+            }
         }
     }
 }
@@ -192,28 +208,66 @@ private fun InformationCards(weight: (weight: Double) -> Unit, age: (age: Int) -
 }
 
 @Composable
-private fun BmiResultCard(modifier: Modifier = Modifier, index: String, bmiCategory: String) {
+private fun BmiResultCard(
+    modifier: Modifier = Modifier,
+    index: String,
+    bmiCategory: String,
+    onClickInfo: () -> Unit
+) {
     Card(
         modifier = modifier.padding(2.dp),
         colors = CardDefaults.cardColors(containerColor = Color.DarkGray),
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
 
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            Text(text = index, fontSize = 26.sp, fontWeight = FontWeight.W700, color = Color.White)
-            Text(
-                text = bmiCategory.ifBlank { "BMI Result" },
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Light,
-                color = Color.White
-            )
+        Box(modifier = Modifier.fillMaxSize()) {
+            IconButton(onClick = onClickInfo, modifier = Modifier.align(Alignment.TopEnd)) {
+                Icon(
+                    imageVector = Icons.Filled.Info,
+                    contentDescription = "BMI Information",
+                    tint = Color.White
+                )
+            }
+            Column(
+                modifier = Modifier.matchParentSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = index,
+                    fontSize = 26.sp,
+                    fontWeight = FontWeight.W700,
+                    color = Color.White
+                )
+                Text(
+                    text = bmiCategory.ifBlank { "BMI Result" },
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Light,
+                    color = Color.White
+                )
+            }
         }
 
+    }
+}
+
+@Composable
+private fun InformationCard(onDismiss: () -> Unit) {
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            modifier = Modifier,
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White,
+                contentColor = Color.Black
+            )
+        ) {
+            Text(
+                modifier = Modifier.padding(12.dp),
+                text = stringResource(id = R.string.bmi_information_en),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Light
+            )
+        }
     }
 }
 
