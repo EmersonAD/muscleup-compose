@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -48,7 +49,7 @@ fun AnnotationDivisionItem(
                 modifier = Modifier
                     .padding(start = 4.dp, bottom = 2.dp)
                     .weight(1f),
-                text = "Divisão: ${division.division.replaceFirstChar { it.uppercase() }}",
+                text = "Target: ${division.division.replaceFirstChar { it.uppercase() }}",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.W500,
                 color = Color.White,
@@ -100,7 +101,7 @@ fun AnnotationContent(exercise: String, weight: Int?, plates: Int?, onLongClick:
             )
             .background(Color.Black)
     ) {
-        Divider(color = Color.White.copy(0.2f))
+        HorizontalDivider(color = Color.White.copy(0.2f))
 
         Row(
             modifier = Modifier
@@ -117,13 +118,13 @@ fun AnnotationContent(exercise: String, weight: Int?, plates: Int?, onLongClick:
                     .padding(start = 6.dp),
             )
             Text(
-                text = weight?.let { "Peso: $weight Kg" } ?: "Placas: $plates",
+                text = weight?.let { "Weight: $weight Kg" } ?: "Plates: $plates",
                 modifier = Modifier.padding(end = 8.dp),
                 color = Color.White,
                 fontWeight = FontWeight.Light
             )
         }
-        Divider(color = Color.White.copy(0.1f))
+        HorizontalDivider(color = Color.White.copy(0.1f))
     }
 }
 
@@ -131,7 +132,7 @@ fun AnnotationContent(exercise: String, weight: Int?, plates: Int?, onLongClick:
 @Preview
 private fun AnnotationCategoryItemPreview() {
     AnnotationDivisionItem(
-        division = Division("Teste", emptyList()),
+        division = Division("Test", emptyList()),
         onAdd = {},
         onDelete = {},
         onModifyAnnotation = {}

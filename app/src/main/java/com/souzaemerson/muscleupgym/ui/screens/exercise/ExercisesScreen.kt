@@ -30,17 +30,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.souzaemerson.muscleupgym.data.model.body.BodyPartEntity
 import com.souzaemerson.muscleupgym.ui.components.item.ExerciseItem
-import com.souzaemerson.muscleupgym.ui.extensions.setGif
 import com.souzaemerson.muscleupgym.ui.screens.exercise.viewmodel.ExercisesViewModel
 
 @Composable
@@ -90,7 +89,9 @@ fun ExercisesScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
+    ExperimentalGlideComposeApi::class
+)
 @Composable
 private fun ExerciseDetailsBottomSheet(
     modifier: Modifier = Modifier,
@@ -107,10 +108,7 @@ private fun ExerciseDetailsBottomSheet(
         Box(modifier = Modifier.padding(bottom = 24.dp)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-                AsyncImage(
-                    model = setGif(exercise.gifUrl, LocalContext.current),
-                    contentDescription = "Exercise gif"
-                )
+                GlideImage(model = exercise.gifUrl, contentDescription = "Exercise gif")
 
                 Text(
                     modifier = Modifier.padding(top = 8.dp),

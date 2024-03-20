@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,10 +19,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.souzaemerson.muscleupgym.R
 import com.souzaemerson.muscleupgym.data.model.body.BodyPartEntity
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ExerciseItem(
     modifier: Modifier = Modifier,
@@ -41,15 +42,16 @@ fun ExerciseItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            AsyncImage(
+            GlideImage(
                 model = bodyPartEntity.gifUrl,
                 contentDescription = "Image content",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(80.dp)
                     .padding(start = 16.dp, top = 4.dp, bottom = 4.dp),
-
-            )
+            ) {
+                it.dontAnimate()
+            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()

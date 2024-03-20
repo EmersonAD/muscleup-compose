@@ -138,7 +138,7 @@ private fun DivisionList(
     LazyColumn {
         items(items = divisions) { division ->
             AnnotationDivisionItem(
-                modifier = Modifier.padding(bottom = 1.dp),
+                modifier = Modifier.padding(bottom = 2.dp),
                 division = division,
                 onAdd = { addAnnotationIntoDivision(division) },
                 onDelete = { onDelete(division) },
