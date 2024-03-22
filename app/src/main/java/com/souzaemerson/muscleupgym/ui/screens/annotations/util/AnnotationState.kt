@@ -7,5 +7,6 @@ data class AnnotationState(
     val showBottomSheet: Boolean = false,
     val showCreateAnnotationAlert: Boolean = false,
     val showDecisionAlert: Boolean = false,
-    val showUpdateAnnotationAlert: Boolean = false
+    val showUpdateAnnotationAlert: Boolean = false,
+    val showDeleteAnnotationAlert: Boolean = false
 )

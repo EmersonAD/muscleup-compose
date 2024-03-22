@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -27,11 +27,13 @@ import androidx.compose.ui.unit.sp
 fun GenericAlertDialog(
     modifier: Modifier = Modifier,
     title: String,
+    leftButtonLabel: String = "Remover",
+    rightButtonLabel: String = "Editar",
     onRemove: () -> Unit = {},
     onEdit: @Composable () -> Unit = {},
     onDismissRequest: () -> Unit = {}
 ) {
-    AlertDialog(
+    BasicAlertDialog(
         onDismissRequest = onDismissRequest,
         modifier = modifier.background(Color.White)
     ) {
@@ -52,10 +54,10 @@ fun GenericAlertDialog(
                     .padding(12.dp)
             ) {
                 TextButton(onClick = onRemove) {
-                    Text(text = "Remover", color = Color.Black)
+                    Text(text = leftButtonLabel, color = Color.Black)
                 }
                 TextButton(onClick = { isEditClicked = true }) {
-                    Text(text = "Editar", color = Color.Black)
+                    Text(text = rightButtonLabel, color = Color.Black)
                 }
             }
         }

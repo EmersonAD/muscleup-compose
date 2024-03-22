@@ -60,6 +60,9 @@ class AnnotationViewModel @Inject constructor(
                 viewModelScope.launch {
                     withContext(Dispatchers.IO) {
                         annotationsRepository.delete(event.division)
+                        annotationState = annotationState.copy(
+                            showDeleteAnnotationAlert = false
+                        )
                     }
                 }
             }
@@ -146,6 +149,18 @@ class AnnotationViewModel @Inject constructor(
     fun closeUpdateAnnotationAlert() {
         annotationState = annotationState.copy(
             showUpdateAnnotationAlert = false
+        )
+    }
+
+    fun openDeleteAnnotationAlert() {
+        annotationState = annotationState.copy(
+            showDeleteAnnotationAlert = true
+        )
+    }
+
+    fun closeDeleteAnnotationAlert() {
+        annotationState = annotationState.copy(
+            showDeleteAnnotationAlert = false
         )
     }
 

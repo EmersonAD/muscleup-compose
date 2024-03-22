@@ -27,6 +27,7 @@ import com.souzaemerson.muscleupgym.ui.components.dialog.CreateAnnotationAlertDi
 import com.souzaemerson.muscleupgym.ui.components.dialog.GenericAlertDialog
 import com.souzaemerson.muscleupgym.ui.components.item.AnnotationDivisionItem
 import com.souzaemerson.muscleupgym.ui.screens.annotations.util.AnnotationEvent
+import com.souzaemerson.muscleupgym.ui.screens.annotations.util.AnnotationState
 import com.souzaemerson.muscleupgym.ui.screens.annotations.viewmodel.AnnotationViewModel
 
 @Composable
@@ -72,41 +73,11 @@ fun AnnotationScreen(
                 it.annotations.contains(currentAnnotation)
             }
 
-            GenericAlertDialog(
-                title = "Deseja remover ou editar a anotação selecionada?",
-                onEdit = {
-                    viewModel.openUpdateAnnotationAlert()
-                    if (state.showUpdateAnnotationAlert) {
-                        CreateAnnotationAlertDialog(
-                            annotation = currentAnnotation,
-                            onComplete = { annotation ->
-                                viewModel.onEvent(
-                                    AnnotationEvent.UpdateAnnotation(
-                                        selectedDivision,
-                                        currentAnnotation,
-                                        annotation
-                                    )
-                                )
-                            },
-                            onDismiss = {
-                                viewModel.closeUpdateAnnotationAlert()
-                                viewModel.closeDecisionAlert()
-                            }
-                        )
-                    }
-                },
-                onRemove = {
-                    viewModel.onEvent(
-                        AnnotationEvent.RemoveAnnotation(
-                            selectedDivision,
-                            currentAnnotation
-                        )
-                    )
+            ShowDecisionAlertDialog(viewModel, state, currentAnnotation, selectedDivision)
+        }
 
-                }, onDismissRequest = {
-                    viewModel.closeDecisionAlert()
-                }
-            )
+        if (state.showDeleteAnnotationAlert) {
+            ShowDeleteAnnotationAlert(viewModel, currentDivision)
         }
 
         DivisionList(
@@ -115,7 +86,10 @@ fun AnnotationScreen(
                 currentDivision = selectedDivision
                 viewModel.openCreateAnnotationAlert()
             },
-            onDelete = { viewModel.onEvent(AnnotationEvent.DeleteDivision(it)) },
+            onDelete = {
+                viewModel.openDeleteAnnotationAlert()
+                currentDivision = it
+            },
             onModifyAnnotation = { selectedAnnotation ->
                 currentAnnotation = selectedAnnotation
                 viewModel.openDecisionAlert()
@@ -126,6 +100,66 @@ fun AnnotationScreen(
             viewModel.openBottomSheet()
         }
     }
+}
+
+@Composable
+private fun ShowDeleteAnnotationAlert(
+    viewModel: AnnotationViewModel,
+    currentDivision: Division
+) {
+    GenericAlertDialog(
+        title = "Tem certeza que deseja remover a divisão selecionada?",
+        onDismissRequest = { viewModel.closeDeleteAnnotationAlert() },
+        rightButtonLabel = "Remover",
+        leftButtonLabel = "",
+        onEdit = {
+            viewModel.onEvent(AnnotationEvent.DeleteDivision(currentDivision))
+        }
+    )
+}
+
+@Composable
+private fun ShowDecisionAlertDialog(
+    viewModel: AnnotationViewModel,
+    state: AnnotationState,
+    currentAnnotation: Annotation,
+    selectedDivision: Division
+) {
+    GenericAlertDialog(
+        title = "Deseja remover ou editar a anotação selecionada?",
+        onEdit = {
+            viewModel.openUpdateAnnotationAlert()
+            if (state.showUpdateAnnotationAlert) {
+                CreateAnnotationAlertDialog(
+                    annotation = currentAnnotation,
+                    onComplete = { annotation ->
+                        viewModel.onEvent(
+                            AnnotationEvent.UpdateAnnotation(
+                                selectedDivision,
+                                currentAnnotation,
+                                annotation
+                            )
+                        )
+                    },
+                    onDismiss = {
+                        viewModel.closeUpdateAnnotationAlert()
+                        viewModel.closeDecisionAlert()
+                    }
+                )
+            }
+        },
+        onRemove = {
+            viewModel.onEvent(
+                AnnotationEvent.RemoveAnnotation(
+                    selectedDivision,
+                    currentAnnotation
+                )
+            )
+
+        }, onDismissRequest = {
+            viewModel.closeDecisionAlert()
+        }
+    )
 }
 
 @Composable
