@@ -1,4 +1,4 @@
-package com.souzaemerson.muscleupgym.ui.screens.home.util
+package com.souzaemerson.muscleupgym.ui.screens.home.state
 
 data class HomeState(
     val bodyParts: List<String> = emptyList(),

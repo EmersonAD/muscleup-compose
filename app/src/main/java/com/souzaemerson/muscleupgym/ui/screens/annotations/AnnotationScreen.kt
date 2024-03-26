@@ -26,8 +26,8 @@ import com.souzaemerson.muscleupgym.ui.components.CreateDivisionBottomSheet
 import com.souzaemerson.muscleupgym.ui.components.dialog.CreateAnnotationAlertDialog
 import com.souzaemerson.muscleupgym.ui.components.dialog.GenericAlertDialog
 import com.souzaemerson.muscleupgym.ui.components.item.AnnotationDivisionItem
-import com.souzaemerson.muscleupgym.ui.screens.annotations.util.AnnotationEvent
-import com.souzaemerson.muscleupgym.ui.screens.annotations.util.AnnotationState
+import com.souzaemerson.muscleupgym.ui.screens.annotations.state.AnnotationEvent
+import com.souzaemerson.muscleupgym.ui.screens.annotations.state.AnnotationState
 import com.souzaemerson.muscleupgym.ui.screens.annotations.viewmodel.AnnotationViewModel
 
 @Composable

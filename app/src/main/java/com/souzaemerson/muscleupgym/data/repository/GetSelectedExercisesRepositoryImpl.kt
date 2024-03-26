@@ -12,9 +12,9 @@ class GetSelectedExercisesRepositoryImpl @Inject constructor(
 ) : GetSelectedExercisesRepository {
 
     override fun invoke(): Flow<List<BodyPartEntity>> = flow {
-        if (exercisesDao.exists()) {
+        if (exercisesDao.contains()) {
             exercisesDao.getAllExercises().collect { exercises ->
-                emit(exercises)
+                emit(exercises.exercises)
             }
         } else {
             emit(emptyList())

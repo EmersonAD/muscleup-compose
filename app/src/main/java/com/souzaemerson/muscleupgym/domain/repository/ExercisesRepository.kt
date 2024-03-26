@@ -1,10 +1,11 @@
 package com.souzaemerson.muscleupgym.domain.repository
 
-import com.souzaemerson.muscleupgym.data.model.body.BodyPartEntity
+import com.souzaemerson.muscleupgym.data.model.body.Exercises
 import kotlinx.coroutines.flow.Flow
 
 interface ExercisesRepository {
-    fun getAllExercises(): Flow<List<BodyPartEntity>>
-    suspend fun insertExercise(exercise: BodyPartEntity)
-    suspend fun exists(target: String = "abs"): Boolean
+    fun getExercises(): Flow<Exercises>
+    suspend fun insertExercise(exercise: Exercises)
+    suspend fun contains(): Boolean
+    suspend fun isAValidExercises(): Boolean
 }

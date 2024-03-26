@@ -1,4 +1,4 @@
-package com.souzaemerson.muscleupgym.ui.screens.annotations.util
+package com.souzaemerson.muscleupgym.ui.screens.annotations.state
 
 import com.souzaemerson.muscleupgym.data.model.annotation.Annotation
 import com.souzaemerson.muscleupgym.data.model.annotation.Division

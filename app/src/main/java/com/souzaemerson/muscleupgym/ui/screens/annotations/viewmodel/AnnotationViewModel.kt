@@ -9,8 +9,8 @@ import com.souzaemerson.muscleupgym.domain.repository.AnnotationsRepository
 import com.souzaemerson.muscleupgym.domain.usecase.InsertAnnotationUseCase
 import com.souzaemerson.muscleupgym.domain.usecase.RemoveAnnotationUseCase
 import com.souzaemerson.muscleupgym.domain.usecase.UpdateAnnotationUseCase
-import com.souzaemerson.muscleupgym.ui.screens.annotations.util.AnnotationEvent
-import com.souzaemerson.muscleupgym.ui.screens.annotations.util.AnnotationState
+import com.souzaemerson.muscleupgym.ui.screens.annotations.state.AnnotationEvent
+import com.souzaemerson.muscleupgym.ui.screens.annotations.state.AnnotationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first

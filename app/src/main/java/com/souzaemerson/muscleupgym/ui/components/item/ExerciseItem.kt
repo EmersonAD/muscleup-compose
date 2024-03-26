@@ -50,7 +50,10 @@ fun ExerciseItem(
                     .size(80.dp)
                     .padding(start = 16.dp, top = 4.dp, bottom = 4.dp),
             ) {
-                it.dontAnimate()
+                it
+                    .error(R.drawable.ic_warning)
+                    .placeholder(R.drawable.loadiing)
+                    .dontAnimate()
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

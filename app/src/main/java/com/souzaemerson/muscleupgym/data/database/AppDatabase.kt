@@ -6,10 +6,11 @@ import androidx.room.TypeConverters
 import com.souzaemerson.muscleupgym.data.database.dao.AnnotationDao
 import com.souzaemerson.muscleupgym.data.database.dao.ExercisesDao
 import com.souzaemerson.muscleupgym.data.model.annotation.Division
-import com.souzaemerson.muscleupgym.data.model.body.BodyPartEntity
+import com.souzaemerson.muscleupgym.data.model.body.Exercises
 
-@Database(entities = [Division::class, BodyPartEntity::class], version = 1, exportSchema = false)
+@Database(entities = [Division::class, Exercises::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
+
 abstract class AppDatabase : RoomDatabase() {
     abstract fun annotationsDao(): AnnotationDao
     abstract fun exercisesDao(): ExercisesDao

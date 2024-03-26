@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.souzaemerson.muscleupgym.data.model.body.BodyPartEntity
 import com.souzaemerson.muscleupgym.domain.usecase.GetAllExercisesUseCase
 import com.souzaemerson.muscleupgym.domain.usecase.GetBodyPartListUseCase
-import com.souzaemerson.muscleupgym.ui.screens.home.util.HomeState
+import com.souzaemerson.muscleupgym.ui.screens.home.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
