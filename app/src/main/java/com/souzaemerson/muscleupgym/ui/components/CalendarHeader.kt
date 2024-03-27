@@ -56,6 +56,7 @@ fun DateContent() {
                 month = date.getMonthInPortuguese()
                     .removeRange(3, date.getMonthInPortuguese().length),
                 day = date.dayOfMonth.toString(),
+                nameOfDay = date.dayOfWeek.name.removeRange(3, date.dayOfWeek.name.length),
                 color = if (date.isBefore(LocalDate.now())) Color.LightGray else Color.White
             )
         }

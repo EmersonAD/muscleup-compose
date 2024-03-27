@@ -1,9 +1,8 @@
 package com.souzaemerson.muscleupgym.ui.components.item
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
@@ -24,6 +23,7 @@ fun CalendarItem(
     modifier: Modifier = Modifier,
     month: String,
     day: String,
+    nameOfDay: String,
     color: Color = Color.White
 ) {
     Card(
@@ -34,38 +34,38 @@ fun CalendarItem(
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
         colors = CardDefaults.cardColors(containerColor = color),
     ) {
-        DateContent(month = month, day = day)
+        DateContent(month = month, day = day, nameOfDay = nameOfDay)
     }
 }
 
 @Composable
-fun DateContent(month: String, day: String) {
+fun DateContent(month: String, day: String, nameOfDay: String) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = month,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(2.dp)
-            )
-            Text(
-                text = day,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(2.dp)
-            )
-        }
+        Text(
+            modifier = Modifier.offset(y = (-15).dp),
+            text = month,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Light,
+        )
+        Text(
+            text = day,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+        )
+        Text(
+            modifier = Modifier.offset(y = 17.dp),
+            text = nameOfDay,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.ExtraLight,
+        )
     }
 }
 
 @Composable
 @Preview(showBackground = true)
 fun CalendarItemPreview() {
-    CalendarItem(month = "111", day = "1")
+    CalendarItem(month = "111", day = "1", nameOfDay = "Tue")
 }
